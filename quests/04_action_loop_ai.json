@@ -1,0 +1,264 @@
+{
+  "name": "뉴스 RSS 6개 종합 수집 & 텔레그램 전송",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "id": "schedule",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-240, 0]
+    },
+
+    {
+      "parameters": {
+        "url": "https://www.asiae.co.kr/rss/news.xml"
+      },
+      "id": "rss1",
+      "name": "아시아경제 주요뉴스",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [0, -220]
+    },
+    {
+      "parameters": { "maxItems": 2 },
+      "id": "limit1",
+      "name": "Limit - 아시아경제",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [220, -220]
+    },
+    {
+      "parameters": {
+        "chatId": "8221322842",
+        "text": "=📰 [아시아경제]\n제목 : {{ $json.title }}\n발행일 : {{ $json.pubDate }}\n{{ $json.link }}"
+      },
+      "id": "send1",
+      "name": "Send - 아시아경제",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [440, -220],
+      "credentials": {
+        "telegramApi": {
+          "id": "KsGeR3zEu5LdJusP",
+          "name": "Telegram account"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "url": "https://www.yna.co.kr/rss/industry.xml"
+      },
+      "id": "rss2",
+      "name": "연합뉴스 산업",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [0, -110]
+    },
+    {
+      "parameters": { "maxItems": 2 },
+      "id": "limit2",
+      "name": "Limit - 연합뉴스",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [220, -110]
+    },
+    {
+      "parameters": {
+        "chatId": "8221322842",
+        "text": "=🗞 [연합뉴스 산업]\n제목 : {{ $json.title }}\n발행일 : {{ $json.pubDate }}\n{{ $json.link }}"
+      },
+      "id": "send2",
+      "name": "Send - 연합뉴스",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [440, -110],
+      "credentials": {
+        "telegramApi": {
+          "id": "KsGeR3zEu5LdJusP",
+          "name": "Telegram account"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "url": "https://news.sbs.co.kr/news/headlineRssFeed.do?plink=RSSREADER"
+      },
+      "id": "rss3",
+      "name": "SBS 헤드라인",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": { "maxItems": 2 },
+      "id": "limit3",
+      "name": "Limit - SBS",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "chatId": "8221322842",
+        "text": "=🗞 [SBS 뉴스]\n제목 : {{ $json.title }}\n발행일 : {{ $json.pubDate }}\n{{ $json.link }}"
+      },
+      "id": "send3",
+      "name": "Send - SBS",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [440, 0],
+      "credentials": {
+        "telegramApi": {
+          "id": "KsGeR3zEu5LdJusP",
+          "name": "Telegram account"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "url": "https://rss.donga.com/total.xml"
+      },
+      "id": "rss4",
+      "name": "동아일보 종합",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [0, 110]
+    },
+    {
+      "parameters": { "maxItems": 2 },
+      "id": "limit4",
+      "name": "Limit - 동아일보",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [220, 110]
+    },
+    {
+      "parameters": {
+        "chatId": "8221322842",
+        "text": "=📰 [동아일보]\n제목 : {{ $json.title }}\n발행일 : {{ $json.pubDate }}\n{{ $json.link }}"
+      },
+      "id": "send4",
+      "name": "Send - 동아일보",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [440, 110],
+      "credentials": {
+        "telegramApi": {
+          "id": "KsGeR3zEu5LdJusP",
+          "name": "Telegram account"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "url": "https://rss.hankyung.com/new/news_main.xml"
+      },
+      "id": "rss5",
+      "name": "한국경제 메인",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [0, 220]
+    },
+    {
+      "parameters": { "maxItems": 2 },
+      "id": "limit5",
+      "name": "Limit - 한국경제",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [220, 220]
+    },
+    {
+      "parameters": {
+        "chatId": "8221322842",
+        "text": "=💼 [한국경제]\n제목 : {{ $json.title }}\n발행일 : {{ $json.pubDate }}\n{{ $json.link }}"
+      },
+      "id": "send5",
+      "name": "Send - 한국경제",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [440, 220],
+      "credentials": {
+        "telegramApi": {
+          "id": "KsGeR3zEu5LdJusP",
+          "name": "Telegram account"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "url": "https://rss.kbs.co.kr/news/entertainment/rss.xml"
+      },
+      "id": "rss6",
+      "name": "KBS 연예뉴스",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [0, 330]
+    },
+    {
+      "parameters": { "maxItems": 2 },
+      "id": "limit6",
+      "name": "Limit - KBS",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [220, 330]
+    },
+    {
+      "parameters": {
+        "chatId": "8221322842",
+        "text": "=🎬 [KBS 연예]\n제목 : {{ $json.title }}\n발행일 : {{ $json.pubDate }}\n{{ $json.link }}"
+      },
+      "id": "send6",
+      "name": "Send - KBS",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [440, 330],
+      "credentials": {
+        "telegramApi": {
+          "id": "KsGeR3zEu5LdJusP",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          { "node": "아시아경제 주요뉴스", "type": "main", "index": 0 },
+          { "node": "연합뉴스 산업", "type": "main", "index": 0 },
+          { "node": "SBS 헤드라인", "type": "main", "index": 0 },
+          { "node": "동아일보 종합", "type": "main", "index": 0 },
+          { "node": "한국경제 메인", "type": "main", "index": 0 },
+          { "node": "KBS 연예뉴스", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "아시아경제 주요뉴스": { "main": [[{ "node": "Limit - 아시아경제", "type": "main", "index": 0 }]] },
+    "Limit - 아시아경제": { "main": [[{ "node": "Send - 아시아경제", "type": "main", "index": 0 }]] },
+    "연합뉴스 산업": { "main": [[{ "node": "Limit - 연합뉴스", "type": "main", "index": 0 }]] },
+    "Limit - 연합뉴스": { "main": [[{ "node": "Send - 연합뉴스", "type": "main", "index": 0 }]] },
+    "SBS 헤드라인": { "main": [[{ "node": "Limit - SBS", "type": "main", "index": 0 }]] },
+    "Limit - SBS": { "main": [[{ "node": "Send - SBS", "type": "main", "index": 0 }]] },
+    "동아일보 종합": { "main": [[{ "node": "Limit - 동아일보", "type": "main", "index": 0 }]] },
+    "Limit - 동아일보": { "main": [[{ "node": "Send - 동아일보", "type": "main", "index": 0 }]] },
+    "한국경제 메인": { "main": [[{ "node": "Limit - 한국경제", "type": "main", "index": 0 }]] },
+    "Limit - 한국경제": { "main": [[{ "node": "Send - 한국경제", "type": "main", "index": 0 }]] },
+    "KBS 연예뉴스": { "main": [[{ "node": "Limit - KBS", "type": "main", "index": 0 }]] },
+    "Limit - KBS": { "main": [[{ "node": "Send - KBS", "type": "main", "index": 0 }]] }
+  },
+  "active": false
+}
