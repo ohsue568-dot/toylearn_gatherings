@@ -1,0 +1,298 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        -128
+      ],
+      "id": "67d365de-35d5-40f1-92f9-2ad821f1ab31",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n\"feeds\": [\n\"https://news.google.com/rss/headlines/section/tech?hl=ko&gl=KR&ceid=KR:ko\",\n\"https://www.yna.co.kr/rss/industry.xml\",\n  \"https://www.chosun.com/arc/outboundfeeds/rss/category/opinion/?outputType=xml\",\n\n  \"https://www.yna.co.kr/rss/entertainment.xml\",\n  \"https://news.sbs.co.kr/news/ReplayRssFeed.do?prog_cd=R2&plink=RSSREADER\",\n  \n  \"https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml\"\n  \n  \n]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        -128
+      ],
+      "id": "1a4a4776-15f8-4c4f-aaad-3ba810551e48",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "feeds",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        256,
+        -128
+      ],
+      "id": "deea7b84-3abb-4e96-925d-3679821871d7",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        464,
+        -128
+      ],
+      "id": "49c09caf-a372-4c62-bbf3-7f341dc42aa4",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.feeds }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        -32
+      ],
+      "id": "3fe1d497-6f64-4a77-9f6c-f9d082606d10",
+      "name": "RSS Read5"
+    },
+    {
+      "parameters": {
+        "maxItems": 2
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        880,
+        -32
+      ],
+      "id": "816e0af0-3d60-4df3-8bc5-f751a0403ade",
+      "name": "Limit4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8b73ab9f-2e0b-4d57-b234-e1732d9cbc22",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "0e9a5f78-6724-4879-aad2-c20ffac706e6",
+              "name": "link",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "ec125dad-80ab-4d34-a901-af9fbf6b695a",
+              "name": "pubDate",
+              "value": "={{ $json.pubDate }}",
+              "type": "string"
+            },
+            {
+              "id": "c5b2800c-3ed8-4c99-a3e3-dd03efef1ac5",
+              "name": "content",
+              "value": "={{ $json['content:encodedSnippet'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        272
+      ],
+      "id": "c0416a48-a371-4773-afbf-39238ba3e34b",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "chatId": "7109708970",
+        "text": "={{ $json.content.parts[0].text }}\n",
+        "additionalFields": {
+          "appendAttribution": true,
+          "disable_notification": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        288
+      ],
+      "id": "bd09ae2b-5dd8-4eb3-b1e5-2b04dcd97b32",
+      "name": "Send a text message",
+      "webhookId": "b4b20668-51dc-45ae-b994-b1384988f9f3",
+      "credentials": {
+        "telegramApi": {
+          "id": "FAphCsTcmmTEW1mN",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-pro",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-pro"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=당신은 자료정리 관련 20년차 전문가입니다.\n\n아래의 내용 중 일부 내용을 간단하게 정리\n- 내용 중 content 필드 값 내용을 20글자로 정리, 핵심 단어를 포함 할것\n- 나머지 필드는 그대로 유지\n## 입력값\n\n{\n\n    \"title\":{{ $json.title }},\n\n    \"link\": {{ $json.link }},\n\n    \"content\": {{ $json.content }},\n\n    \"pubDate\": {{ $json.pubDate }}\n\n  }\n\n## 출력 예시\n\n{\n    \"title\": \"텍스트\",\n    \"link\": \"링크\",\n    \"content\": \"텍스트\",\n    \"pubDate\": \"날짜\"\n  }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        256,
+        272
+      ],
+      "id": "bc4bc937-49b1-4ad5-9f0f-259bff9465f0",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "yRYpuyxoQIgGcwN1",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RSS Read5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read5": {
+      "main": [
+        [
+          {
+            "node": "Limit4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2afd7ced-9b92-42ba-827a-cbb01b96c913",
+  "meta": {
+    "instanceId": "9d724391aad74e814f645106c13b442168f152a6072781caada997ac20b9cec0"
+  },
+  "id": "QQQMMz6OuYYG9rnq",
+  "tags": []
+}
