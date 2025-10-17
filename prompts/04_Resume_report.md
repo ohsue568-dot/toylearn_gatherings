@@ -2,7 +2,7 @@
 
 **이름** | **이메일** | **전화번호** | **주소**  
 :--|:--|:--|:--  
-오수현 | [ohmichin@naver.com](mailto:ohmichin@naver.com) | 010-2768-4301 | 서울 동대문구 전농로 38길 101-5 B102  
+오수현 | [ohmichin@naver.com](mailto:ohmichin@naver.com) | 010-2768-4301 | 서울 동대문구 전농로 38길
 
 ---
 
