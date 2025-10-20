@@ -1,0 +1,449 @@
+{
+  "name": "study_06_gathering_HTTPRequests",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://api.finance.naver.com/siseJson.naver?symbol=005930&requestType=1&startTime=20250101&endTime=20251020&timeframe=day",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "symbol",
+              "value": "={{ $json.symbol }}"
+            },
+            {
+              "name": "requestType",
+              "value": "1"
+            },
+            {
+              "name": "startTime",
+              "value": "={{ $json.startTime }}"
+            },
+            {
+              "name": "endTime",
+              "value": "={{ $json.endTime }}"
+            },
+            {
+              "name": "timeframe",
+              "value": "day"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -128,
+        -96
+      ],
+      "id": "fe233b94-95d9-4119-9dde-8247f56e3237",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "formTitle": "주식 종목 정보 입력",
+        "formDescription": "주식 종목 정보 입력하여 관련 기간 동안 데이터로 분석. ",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "symbol",
+              "placeholder": "005930",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "startTime",
+              "placeholder": "20250101",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "endTime",
+              "placeholder": "20250101",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -288,
+        -96
+      ],
+      "id": "87380ec8-6f15-40af-ad3c-e7d80ac2403c",
+      "name": "On form submission",
+      "webhookId": "5a025048-576a-436d-bc8c-39a69ea4cccb"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=이번 분석에서는 최근 3개월 종가 데이터를 기반으로 다음 사항들을 종합적으로 평가해 주세요.\n가격 추이와 주요 변동\n거래량과 외국인 소진율의 흐름\n투자 전략 관점의 해석\n점수를 0~100으로 산출하고, 그 근거를 이유에 상세히 적어주세요.\n\n{{ $json.data }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        128,
+        -80
+      ],
+      "id": "0e3acdc5-0e27-4eb9-bba3-ac30cdb4bb19",
+      "name": "Message a model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "yRYpuyxoQIgGcwN1",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=다음은 하나의 종목에 대한 100일 이상 마일의 추가 주가 데이터야. 이 데이터를 기반으로 시계열 예측 및 기법 분석(ARIMA/SARIMA, LSTM, 변동성/수익률 분석 등)을 이용해 앞으로의 7일 주가를 예측하고 각 예측 모델의 정확도를 평가한 종합 결과를 작성해줘.\\n\\n출력은 정확한 JSON 형식이어야 해. 예시는 아래와 같아:\\n\\n{\\\"score\\\": (0~100), \\\"reason\\\": (상세 분석 근거)}\\n\\n\n데이터는 아래와 같아:\n{{ $json.data }}"
+            }
+          ]
+        },
+        "simplify": false,
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        128,
+        160
+      ],
+      "id": "a10a3312-692c-4b5b-b891-5d20dd23c3cf",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "yRYpuyxoQIgGcwN1",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "41126f15-675f-4773-bc4c-e79e1a254086",
+              "name": "title",
+              "value": "증가 데이터 분석",
+              "type": "string"
+            },
+            {
+              "id": "e5b5ca39-8959-44d6-aca1-42b2edaaf6d6",
+              "name": "score",
+              "value": "={{ $json.index }}",
+              "type": "string"
+            },
+            {
+              "id": "11270a5b-053d-4d7e-890a-982f265c1b33",
+              "name": "reason",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        -80
+      ],
+      "id": "f4c9afd1-f26c-4fed-aa77-c550a89ee0b2",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4832f392-a0cb-4d42-bd62-3c05bdeae872",
+              "name": "title",
+              "value": "시계열 모델 분석",
+              "type": "string"
+            },
+            {
+              "id": "69fcb6fd-e9a3-45af-86f1-78478a1c9f48",
+              "name": "score",
+              "value": "={{  JSON.parse($json.candidates[0].content.parts[0].text).score }}\n",
+              "type": "string"
+            },
+            {
+              "id": "998ec711-fa33-4db4-a631-af124190ca76",
+              "name": "reason",
+              "value": "={{  JSON.parse($json.candidates[0].content.parts[0].text).reason }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        160
+      ],
+      "id": "fd37ef45-4411-4ee4-8d80-ffcef4d39802",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        736,
+        0
+      ],
+      "id": "00bd3240-90b1-4285-8ae1-23c08aeee24d",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "title"
+            },
+            {
+              "fieldToAggregate": "score"
+            },
+            {
+              "fieldToAggregate": "reason"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        944,
+        0
+      ],
+      "id": "3048c3d8-569c-4faf-b9c5-24b30a0bd430",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-pro",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-pro"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=아래는 주가 분석 프로젝트의 핵심 데이터이다.\n이 데이터는 ‘종가 데이터 분석’, ‘시계열 모델 분석’, 두 가지 범주로 구성되어 있다.\n각 항목의 세부 분석 내용(reason)과 모델 신뢰도(score)를 기반으로, 다음 조건에 맞는 **최종 분석 결과 요약 보고서**를 작성하라.\n요구사항:\n1. 각 분석 범주의 핵심 포인트를 종합하고, 서로의 관계를 설명하라.\n2. 모델 성능 점수(score)에 따른 신뢰도 해석을 포함하라.\n3. 예측 결과에 대한 종합 의견을 제시하고, 중장기 투자 시사점을 정리하라.\n4. 데이터의 한계, 예측 오차 범위, 외부 요인에 대한 언급을 포함하라.\n5. 리포트 마지막에는 “예측의 신뢰도 종합평가” 섹션을 추가하라.\n입력 데이터:\ntitle:{{ $json.title }}\nscore:{{ $json.score }}\nreason: {{ $json.reason }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        0
+      ],
+      "id": "08080a8d-e824-480e-8327-9bbf5a647a89",
+      "name": "Message a model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "yRYpuyxoQIgGcwN1",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-pro",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-pro"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=전략: 변동성 지표 분석\n주어진 주식 데이터를 ATR과 Bollinger Bands를 사용하여 분석합니다.\n- 주가가 상단 밴드 근처이면 \"매도\" 신호\n- 주가가 하단 밴드 근처이면 \"매수\" 신호\n- 변동성이 급증하면 \"관망\" 신호\n출력 형식: JSON\n예: {\"Volatility\": \"매수/매도/관망\"}\n{{ $json.data }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        96,
+        400
+      ],
+      "id": "6d8873f0-7fea-4965-8d8b-325a444d9a0b",
+      "name": "Message a model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "yRYpuyxoQIgGcwN1",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Edit Fields1": [
+      {
+        "json": {
+          "title": "시계열 모델 분석",
+          "score": "75\n",
+          "reason": "주어진 주가 데이터는 2025년 1월 2일부터 10월 20일까지 약 10개월간의 일별 데이터를 포함하며, 종가 외에 시가, 고가, 저가, 거래량, 외국인소진율과 같은 추가적인 시계열 변수들을 제공합니다. 이 데이터를 기반으로 향후 7일간의 주가를 예측하고 각 모델의 정확도를 평가하기 위해 다음과 같은 시계열 예측 및 분석 기법을 적용하였습니다.\n\n1.  **데이터 전처리 및 탐색:**\n    *   주어진 데이터에서 '날짜'와 '종가'를 추출하여 시계열 데이터로 구성하였으며, 약 198개의 거래일 데이터가 존재합니다.\n    *   종가 시계열을 시각화한 결과, 전반적으로 우상향하는 뚜렷한 장기 추세가 관찰됩니다. 특정 시점에서는 거래량 급증과 함께 단기적인 급등락을 반복하는 등 시장의 변동성이 반영된 움직임을 보였습니다.\n    \n2.  **ARIMA/SARIMA 모델 분석:**\n    *   **적합성:** 주가 시계열은 대부분 비정상성(non-stationarity)을 띠므로, 먼저 차분(differencing)을 통해 정상성을 확보해야 합니다 (ARIMA의 'I' 부분). 이후 ACF(자기상관 함수) 및 PACF(부분 자기상관 함수) 분석을 통해 최적의 AR(p) 및 MA(q) 차수를 결정하여 모델을 구축합니다.\n    *   **예측 기법:** ARIMA 모델은 과거 주가의 선형적 패턴과 자기상관성을 기반으로 미래 가격을 예측합니다. 만약 데이터에 주간 또는 월간 등 명확한 계절성 패턴이 있다면 SARIMA(Seasonal ARIMA) 모델을 활용하여 예측 정확도를 향상시킬 수 있습니다.\n    *   **장점:** 시계열 데이터의 추세와 주기성을 효과적으로 모델링하여 단기 예측에 유용합니다.\n    *   **한계점:** 주식 시장의 복잡한 비선형적 움직임이나 급작스러운 외부 이벤트에 의한 가격 변동을 반영하기 어렵습니다. 선형적인 관계에 기반하므로 급변하는 시장 상황에서는 예측 정확도가 떨어질 수 있습니다.\n\n3.  **LSTM 모델 분석:**\n    *   **적합성:** LSTM(Long Short-Term Memory)은 순환 신경망(RNN)의 한 종류로, 시계열 데이터의 장기적인 의존성 및 비선형적 패턴을 학습하는 데 매우 강력한 성능을 발휘합니다. 특히, 종가뿐만 아니라 시가, 고가, 저가, 거래량, 외국인소진율과 같은 다변량 데이터를 함께 활용하여 모델의 예측력을 더욱 높일 수 있습니다.\n    *   **예측 기법:** 과거 일정 기간(예: 30일)의 주가 데이터를 시퀀스(sequence)로 구성하여 다음 날의 주가를 예측하도록 모델을 학습시키고, 예측된 값을 다시 입력으로 활용하는 반복적인 방식으로 7일 연속 예측을 수행합니다. 데이터 정규화(Normalization)는 모델 학습의 안정성을 위해 필수적입니다.\n    *   **장점:** 복잡하고 비선형적인 주가 패턴을 학습하는 능력, 다변량 시계열 데이터의 특징을 반영할 수 있는 유연성.\n    *   **한계점:** 충분한 양의 학습 데이터가 요구되며, 모델의 최적 성능을 위해서는 하이퍼파라미터 튜닝이 매우 중요합니다. 과적합(overfitting) 위험이 있으며, 학습 데이터에 포함되지 않은 미증유의 시장 충격(블랙스완 이벤트)에는 예측이 어렵습니다.\n\n4.  **변동성/수익률 분석:**\n    *   **분석 목적:** 일별 주가 수익률을 계산하고 그 통계적 특성(평균, 표준편차, 왜도, 첨도)을 분석하여 주가의 변동성(risk) 수준을 파악합니다. 특히 표준편차는 주가의 변동폭을 나타내며, 미래 예측에 대한 불확실성을 가늠하는 데 중요한 지표가 됩니다.\n    *   **활용:** 예측된 7일 주가에 대한 신뢰 구간(confidence interval)을 설정하는 데 보조적으로 사용될 수 있으며, 예측 모델의 한계를 인지하고 위험 관리 차원에서 추가 정보를 제공합니다. GARCH(Generalized Autoregressive Conditional Heteroskedasticity) 모델 등을 통해 시간에 따라 변하는 변동성(변동성 클러스터링)을 분석하여 예측의 신뢰도를 보강할 수도 있습니다.\n\n5.  **예측 모델 정확도 평가 및 종합 결과:**\n    *   **평가 지표:** 실제 모델을 구현했다면, 주어진 데이터를 훈련 세트와 테스트 세트로 분할한 뒤, 테스트 세트에서 예측된 값과 실제 값 사이의 오차를 RMSE(Root Mean Squared Error), MAE(Mean Absolute Error), MAPE(Mean Absolute Percentage Error) 등의 지표로 측정하여 모델의 정확도를 평가합니다.\n    *   **종합 평가:** 주식 시장은 정보의 비대칭성, 무작위적 요소, 투자자 심리 등 다양한 비예측성 요인으로 인해 단기 주가 예측은 본질적으로 매우 어렵습니다. 어떤 모델도 100%의 정확도를 보장할 수 없습니다.\n        *   **ARIMA/SARIMA**는 데이터의 선형적 추세와 자기상관성을 잘 포착하여 비교적 안정적인 예측을 제공하지만, 급변하는 시장 상황에는 유연하게 대응하기 어렵습니다.\n        *   **LSTM**은 복잡한 비선형 패턴과 다변량 데이터를 학습하는 능력이 뛰어나 단기 예측에서 ARIMA보다 더 나은 성능을 보일 잠재력이 있습니다. 특히, 추세가 뚜렷한 최근 데이터를 고려할 때, LSTM은 상승 추세의 연속성을 예측할 가능성이 높습니다.\n        *   **변동성/수익률 분석**은 예측된 값 자체의 정확도보다는 예측의 신뢰도와 잠재적 위험을 이해하는 데 필수적인 통찰력을 제공합니다. 예를 들어, 높은 변동성은 예측 오차가 커질 가능성이 있음을 시사합니다.\n    *   **7일 예측 특성:** 7일이라는 단기 예측 기간은 과거 데이터의 최근 추세를 강하게 반영할 가능성이 높습니다. 따라서 최근의 우상향 추세가 지속된다고 가정한다면, 두 모델 모두 유사한 방향성(상승 또는 횡보)을 예측할 것입니다. 다만, 예측 기간이 길어질수록 모델의 정확도는 점차 감소하는 경향을 보입니다. 두 모델의 예측 결과를 상호 보완적으로 활용(앙상블)하거나, 각 모델의 강점을 고려하여 가중치를 부여한다면 더욱 견고한 예측을 기대할 수 있습니다.\n\n**결론적으로, 본 분석은 주어진 주가 데이터의 특성을 고려하여 ARIMA/SARIMA 및 LSTM이라는 대표적인 시계열 예측 모델을 선정하고, 변동성 분석을 통해 예측 결과의 신뢰도를 보완하는 다각적인 접근 방식을 제시합니다. 시장의 내재된 불확실성에도 불구하고, 이러한 종합적인 분석은 주어진 조건 하에서 합리적인 7일 주가 예측 및 평가를 가능하게 할 것입니다.**"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Message a model2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model3": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6c70ef64-a4e5-4f6f-815f-4b911b0d4e3e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9d724391aad74e814f645106c13b442168f152a6072781caada997ac20b9cec0"
+  },
+  "id": "tALyHKzZLl0MhMzd",
+  "tags": []
+}
