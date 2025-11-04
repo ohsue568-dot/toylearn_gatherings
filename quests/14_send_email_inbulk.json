@@ -100,9 +100,14 @@
     {
       "parameters": {
         "resource": "fileFolder",
-        "queryString": "md",
-        "limit": 19,
-        "filter": {},
+        "limit": 100,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "https://drive.google.com/drive/folders/1cOw8jjRcVcFEAIUQr8DtNOADVij5ir3l",
+            "mode": "url"
+          }
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.googleDrive",
