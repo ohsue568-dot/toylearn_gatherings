@@ -1,0 +1,488 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "회의록 기록 정리",
+        "formDescription": "회의록 기록 정리",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "주관자 e-mail"
+            },
+            {
+              "fieldLabel": "참여 인원"
+            },
+            {
+              "fieldLabel": "회의 내용"
+            },
+            {
+              "fieldLabel": "회의 주제"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -496,
+        -16
+      ],
+      "id": "d3e73a53-1483-4351-bc05-3b04bd83e8fa",
+      "name": "On form submission",
+      "webhookId": "f8d4a948-5d86-454f-98ad-f820f7c97df3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a7827b57-b975-43c5-a675-f05a12ea3bc3",
+              "leftValue": "={{ $json['주관자 e-mail'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -288,
+        -16
+      ],
+      "id": "b1650229-d0ad-4d69-a168-5e6437c27c48",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1PaYxxuKG9CnxfEIEYEIKXu7dFfShazPWL2XoTjV6Rpk",
+          "mode": "list",
+          "cachedResultName": "회의록 기록 - 킥오프 미팅",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PaYxxuKG9CnxfEIEYEIKXu7dFfShazPWL2XoTjV6Rpk/edit?usp=drivesdk"
+        },
+        "name": "회의록 기록 - 킥오프 미팅",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        -112
+      ],
+      "id": "d9600c08-23e2-4797-b3b9-aec63ae0910d",
+      "name": "Copy file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-pro",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-pro"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "아래 [대상]을 읽고 회의 주제를 요약해줘\n[대상]\n🗂 회의록 작성 가이드 & 예시 회의록 모음\n🧩 프롬프트 1\n당신은 30년차 직장인으로, 부서의 팀장입니다.\n회의록을 작성하려면 어떤 요소가 필수적으로 들어가야 하는지 알려주세요.\n\n✅ 회의록 필수 요소 (기본 구조)\n1. 기본 정보\n회의명: 어떤 목적의 회의인지 명확히 (예: “10월 마케팅 전략 회의”)\n일시 / 장소: 회의가 언제, 어디서 열렸는지\n참석자 / 불참자 명단: 참석자 직급 포함 (책임 소재 명확히)\n작성자: 회의록 작성 및 관리 담당자\n2. 회의 목적 및 안건\n회의의 핵심 주제를 한 문장으로 요약\n안건을 목록으로 정리\n(예: ① 예산 검토 ② 일정 조정 ③ 신규 캠페인 논의 등)\n3. 논의 내용 (핵심 요약)\n각 안건별로 정리:\n논의된 주요 내용\n의견 대립 / 쟁점 요약\n결론 또는 보류 이유\n불필요한 대화 기록은 생략하고 사실 중심으로 작성\n예: “A팀은 예산 10% 증액 필요 주장, B팀은 ROI 근거 미흡 지적”\n\n4. 결정 사항 (핵심 중의 핵심)\n누가 / 무엇을 / 언제까지 할지 명확히\n예: “디자인팀은 10월 25일까지 시안 제출 – 담당: 김OO”\n\n“추후 검토” 항목도 반드시 기입 (책임 공백 방지)\n5. 후속 조치 / Action Item\n항목\t담당자\t완료기한\t비고\n광고 캠페인 시안 수정\t디자인팀 김OO\t10/25\t콘셉트 확정 후 보고\n6. 비고 / 참고사항\n차기 회의 일정\n추가 필요 자료나 외부 의사결정 대기 사항\n특이사항 (예: “본 회의록은 부서장 결재 후 공유 예정”)\n⚙️ 실무 팁\n회의 직후 24시간 내 작성: 기억이 생생할 때 정확도 확보\n메일/협업툴 공유 시 제목 예시\n[회의록] 10월 21일_신제품 캠페인 전략회의(최종결정 포함)\n결정사항은 굵게 또는 형광 표시해 읽는 사람이 바로 액션 파악 가능\n🧩 프롬프트 2\n당신이 말한 '회의록 필수 요소'에 의거하여,\n다음의 녹취록을 바탕으로 각 회의의 회의록을 작성하세요.\n\n📄 참고 녹취록\n녹취록1: 초록숲 재단 캠페인\n녹취록2: 더 어반 십 캠페인\n🟩 회의록 1\n초록숲 재단 ‘내 숨을 위한 한 평의 숲’ 공익 캠페인 킥오프 미팅\n일시: 2025년 10월 21일(화) 14:00~14:55\n플랫폼: Google Meet\n참석자:\n초록숲 재단: 이지수 캠페인 매니저, 김선우 사무국장\n유어미디어: 김민준 캠페인 전략팀장, 이수영 크리에이티브 디렉터\n작성자: 김민준 팀장(유어미디어)\n1️⃣ 회의 목적 및 주요 안건\n공익 캠페인 **‘내 숨을 위한 한 평의 숲’**의 핵심 메시지 및 콘셉트 방향 논의\n제한된 예산(5천만 원) 내 효과적인 제작·매체 전략 수립\n향후 제안서 제출 일정 확정\n2️⃣ 주요 논의 내용 요약\n1) 캠페인 핵심 메시지\n\n초록숲 재단: 단순한 정보 전달을 넘어 ‘연대감’과 ‘희망’ 전달 희망\n시민들이 “나도 참여해볼까?” 하는 감정을 느끼게 하는 것이 목표\n2) 크리에이티브 방향\n\n유어미디어 제안: 콘셉트 “숨결이 모여 숲이 될 때”\n시민 인터뷰 기반 다큐멘터리형 영상\n일상 속 짧은 ‘숨결’들이 모여 숲을 이루는 감동적인 전개\n초록숲 재단: 방향성 공감, 진정성 있는 접근 긍정 평가\n3) 예산 및 매체 전략\n\n예산 5천만 원으로 TV+라디오 광고 가능 여부 논의\n유어미디어 제안:\n‘선택과 집중’ 전략 → 고품질 30초 영상에 제작비 집중\n방송사 공익광고(PSA) 후원 확보, ESG 명분 활용\n라디오 광고는 TV 오디오 또는 시민 목소리로 효율 제작\n4) 후속 제안\n\n초록숲 재단 요청: 공식 제안서 제출\n유어미디어: **10월 24일(금)**까지 제안서 송부 약속\n3️⃣ 결정 사항\n항목\t결정 내용\t담당자\t완료기한\n캠페인 콘셉트 확정\t“숨결이 모여 숲이 될 때” 방향으로 진행\t유어미디어\t-\n제안서 제출\t크리에이티브 및 미디어 후원 전략 포함 제안서 송부\t김민준 팀장\t10월 24일(금)\n캠페인 메시지 방향\t‘연대감’·‘희망’ 중심의 공익 메시지 유지\t양사 공동\t-\n4️⃣ 비고\n캠페인 제작 및 송출 관련 예산 효율화 방안은 제안서 검토 후 재협의 예정\n제안서 검토 회의 일정은 초록숲 재단 내부 확인 후 통보 예정\n🟧 회의록 2\n더 어반 십 ‘스파클링 아이스티’ 론칭 캠페인 킥오프 미팅\n일시: 2025년 10월 23일(목) 10:00~11:05\n플랫폼: Google Meet\n참석자:\n더 어반 십: 박서준 마케팅팀장, 최지혜 브랜드 매니저\n유어미디어: 김민준 캠페인 전략팀장, 이수영 크리에이티브 디렉터\n작성자: 김민준 팀장(유어미디어)\n1️⃣ 회의 목적 및 주요 안건\n신제품 ‘스파클링 아이스티’ 론칭 캠페인 방향 설정\n브랜드 핵심 가치 및 타겟 이미지 논의\n예산(2억 원) 내 효율적 매체 전략 검토\n제안서 제출 일정 확정\n2️⃣ 주요 논의 내용 요약\n1) 브랜드 핵심 포인트\n\n더 어반 십: ‘프리미엄 블렌딩 티 베이스’로 차별화\n핵심 메시지: “지친 일상 속, 나를 위한 세련된 휴식”\n2) 표현 방향\n\n피해야 할 이미지: 지나치게 가볍거나 어린 감성\n선호 이미지: 30대 커리어 우먼의 여유로운 휴식\n3) 유어미디어 제안\n\n예산 구조\n제작비 5천만 원 (TV CF, 라디오 CM)\n매체비 1억 5천만 원 (집중형 미디어 믹스)\n미디어 전략\ntvN, JTBC 프라임 타임 집중\nSBS 파워FM / MBC FM4U 출퇴근 시간대 병행\n경제지·라이프스타일 매거진 기획 기사 운영\n콘셉트 제안: “Urban Oasis(도심 속 오아시스)”\n회색 도심 속 한 모금의 청량함, 감각적 대비 강조\n라디오에서는 사운드 연출로 몰입감 극대화\n4) KPI 및 성과 측정\n\n목표: 수도권 내 인지도 30% 상승\n방법: 캠페인 전·후 동일 패널 브랜드 인지도 조사 2회 실시\n5) 후속 제안\n\n더 어반 십 요청: 공식 제안서 제출\n유어미디어: **10월 28일(화)**까지 제안서 송부 약속\n3️⃣ 결정 사항\n항목\t결정 내용\t담당자\t완료기한\n캠페인 콘셉트\t“Urban Oasis(도심 속 오아시스)”로 진행\t유어미디어\t-\n예산 구조\t제작비 5천만 원 / 매체비 1억 5천만 원 확정\t양사 합의\t-\nKPI 측정 방식\t브랜드 인지도 조사 2회 (전·후 비교)\t유어미디어\t캠페인 시작 전·후\n제안서 제출\t공식 제안서 송부 (예산·매체·타임라인 포함)\t김민준 팀장\t10월 28일(화)\n4️⃣ 비고\n더 어반 십 내부 검토 후, 제안서 수령 다음날 회의 일정 조율 예정\n캠페인 촬영 일정은 제안서 확정 후 별도 협의 예정"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        48,
+        -384
+      ],
+      "id": "335a11fe-4c42-4063-af6a-46aa72e6964b",
+      "name": "Message a model",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ZQep2MJvWc2UztGP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1KigjjfJmndyHbjYiX977VqMu3bcbcBYYt5_zJlRBgPs",
+          "mode": "list",
+          "cachedResultName": "[수현]회의록 기록 - 킥오프 미팅",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KigjjfJmndyHbjYiX977VqMu3bcbcBYYt5_zJlRBgPs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "시트1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KigjjfJmndyHbjYiX977VqMu3bcbcBYYt5_zJlRBgPs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "주관자": "={{ $('If').item.json['주관자 e-mail'] }}",
+            "참여 인원": "=4",
+            "날짜(입력 날짜)": "={{ $('If').item.json.submittedAt }}",
+            "회의 주제": "={{ $json.content.parts[0].text }}"
+          },
+          "matchingColumns": [
+            "회의 주제"
+          ],
+          "schema": [
+            {
+              "id": "주관자",
+              "displayName": "주관자",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "참여 인원",
+              "displayName": "참여 인원",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "회의 주제",
+              "displayName": "회의 주제",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "날짜(입력 날짜)",
+              "displayName": "날짜(입력 날짜)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PDF 링크",
+              "displayName": "PDF 링크",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        480,
+        -384
+      ],
+      "id": "fb786928-d5d9-485f-a452-8a25cd4f84a5",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9RSopU1t2HdjaDyZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1KigjjfJmndyHbjYiX977VqMu3bcbcBYYt5_zJlRBgPs",
+          "mode": "list",
+          "cachedResultName": "[수현]회의록 기록 - 킥오프 미팅",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KigjjfJmndyHbjYiX977VqMu3bcbcBYYt5_zJlRBgPs/edit?usp=drivesdk"
+        },
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        688,
+        -384
+      ],
+      "id": "47085ae3-df96-483d-a062-76010bacdc6b",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "[수현]회의록 기록 - 킥오프 미팅",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        864,
+        -384
+      ],
+      "id": "53d7caee-b4ef-421b-958d-fa909d463a52",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1KigjjfJmndyHbjYiX977VqMu3bcbcBYYt5_zJlRBgPs",
+          "mode": "list",
+          "cachedResultName": "[수현]회의록 기록 - 킥오프 미팅",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KigjjfJmndyHbjYiX977VqMu3bcbcBYYt5_zJlRBgPs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "시트1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KigjjfJmndyHbjYiX977VqMu3bcbcBYYt5_zJlRBgPs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "주관자": "={{ $('On form submission').item.json['주관자 e-mail'] }}",
+            "PDF 링크": "https://drive.google.com/file/d/1HVmW8a6vmBRJtAxLfO3-RZ08GOxPQ1sJ/view?usp=drive_link",
+            "참여 인원": "4",
+            "날짜(입력 날짜)": "={{ $('On form submission').item.json.submittedAt }}",
+            "회의 주제": "={{ $('Message a model').item.json.content.parts[0].text }}"
+          },
+          "matchingColumns": [
+            "회의 주제"
+          ],
+          "schema": [
+            {
+              "id": "주관자",
+              "displayName": "주관자",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "참여 인원",
+              "displayName": "참여 인원",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "회의 주제",
+              "displayName": "회의 주제",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "날짜(입력 날짜)",
+              "displayName": "날짜(입력 날짜)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PDF 링크",
+              "displayName": "PDF 링크",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1072,
+        -384
+      ],
+      "id": "ae350eac-1887-419a-baa5-d2684358d9fd",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9RSopU1t2HdjaDyZ",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Copy file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy file": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9c1e3dac-6053-4671-81e0-380f8c92e52d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2bf553d4d1dd317cd7117c0529f10dcbe8def03b5c85f9bd0398de16237e517c"
+  },
+  "id": "LjbYYC9znAbtsYGD",
+  "tags": []
+}

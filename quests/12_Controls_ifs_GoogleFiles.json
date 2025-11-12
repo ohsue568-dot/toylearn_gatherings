@@ -1,0 +1,652 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1mz2sEvGAK7IytnLp7TUWkn08g1rz57IF",
+          "mode": "list",
+          "cachedResultName": "this_triggers",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mz2sEvGAK7IytnLp7TUWkn08g1rz57IF"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        16
+      ],
+      "id": "0f38eb34-0851-4564-a912-b370ae6a5e6b",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e8b7ddb4-26c5-46d4-ae28-2b77b09c46f2",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "ff933074-d4f2-4b65-82da-c6ec7fb80e7e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -32,
+        16
+      ],
+      "id": "72d5ee56-f4c9-4972-94da-d604068221cd",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        384,
+        16
+      ],
+      "id": "4bda79c7-4d12-43d8-a0ee-591142e2f938"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d477a131-3f57-4794-9c35-f5d5b520b542",
+              "name": "mimeType",
+              "value": "={{ $json.mimeType }}",
+              "type": "string"
+            },
+            {
+              "id": "fc9264f7-9dc7-472b-8d6f-88b1384a971d",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5f76e7a2-9684-4a78-8bce-f5256da340a4",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        -80
+      ],
+      "id": "5d7a7945-c4e3-4d5d-ba65-6ac839316cb4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1S9cuhAsxgF8AbqT2qYOozwGfwcWegZPA",
+          "mode": "list",
+          "cachedResultName": "수현_sheets",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1S9cuhAsxgF8AbqT2qYOozwGfwcWegZPA"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "bd85e06c-97b7-40e6-8ae5-40bae02d0ca8",
+      "name": "Move file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1RXYt_nNQfbLg0nRp-tkxUtHi8ueW9tF0",
+          "mode": "list",
+          "cachedResultName": "pasts",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1RXYt_nNQfbLg0nRp-tkxUtHi8ueW9tF0"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        1312
+      ],
+      "id": "42e398bf-ac0b-4f9a-bc7f-d0326d2a2a39",
+      "name": "Google Drive Trigger4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f3251c3e-d407-4204-b06c-4a7c7d98f0a1",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -32,
+        1312
+      ],
+      "id": "2cb6b4e6-da6c-44b8-959f-b8b4b0a714df",
+      "name": "If5"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1S9cuhAsxgF8AbqT2qYOozwGfwcWegZPA",
+          "mode": "list",
+          "cachedResultName": "수현_sheets",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1S9cuhAsxgF8AbqT2qYOozwGfwcWegZPA"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        176,
+        1216
+      ],
+      "id": "991a4703-6cb2-4ac7-8ba2-af5218d80350",
+      "name": "Move file5",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1RXYt_nNQfbLg0nRp-tkxUtHi8ueW9tF0",
+          "mode": "list",
+          "cachedResultName": "pasts",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1RXYt_nNQfbLg0nRp-tkxUtHi8ueW9tF0"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        1632
+      ],
+      "id": "8060aa11-b1d0-47a0-9b0a-813768465082",
+      "name": "Google Drive Trigger5",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6b67b8e6-5498-496d-bd60-eeeb4f2f6150",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.document",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -208,
+        1632
+      ],
+      "id": "526f6bba-091d-4727-9b9e-915667575172",
+      "name": "If6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f144d2f8-ebd4-4d22-86b0-04617149fae9",
+              "leftValue": "={{ $('Google Drive Trigger5').item.json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        1728
+      ],
+      "id": "b196bc87-033d-4785-a6e8-9182702c84eb",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "operation": "get"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        0,
+        1536
+      ],
+      "id": "ea25f980-815b-4faf-924a-3b7d0b00e803",
+      "name": "Get a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "rz1JOwpIla77x3vG",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1mz2sEvGAK7IytnLp7TUWkn08g1rz57IF",
+          "mode": "list",
+          "cachedResultName": "this_triggers",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mz2sEvGAK7IytnLp7TUWkn08g1rz57IF"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        2016
+      ],
+      "id": "68c07dc5-fc51-45cf-a9cf-34722f298830",
+      "name": "Google Drive Trigger6",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bc901c00-c820-4bbe-ab50-dc6a16e13665",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.document",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -384,
+        2016
+      ],
+      "id": "17587a63-f439-4457-8233-62cb410e8b52",
+      "name": "If8"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1TwR8_6bz99A9-xzwBQr1xiTnVK3DV5tn",
+          "mode": "list",
+          "cachedResultName": "수현_docs",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1TwR8_6bz99A9-xzwBQr1xiTnVK3DV5tn"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -176,
+        1920
+      ],
+      "id": "591c4765-b646-4397-b8cc-723406b4604d",
+      "name": "Move file6",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Move file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Google Drive Trigger4": {
+      "main": [
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "Move file5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger5": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "Get a document",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger6": {
+      "main": [
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "Move file6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7316d14c-b021-43ef-8a81-df762781d93c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2bf553d4d1dd317cd7117c0529f10dcbe8def03b5c85f9bd0398de16237e517c"
+  },
+  "id": "DTHbM46otCK3qpnq",
+  "tags": []
+}

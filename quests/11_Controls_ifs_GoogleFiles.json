@@ -1,0 +1,674 @@
+{
+  "name": "11_Controls_ifs_GoogleFiles.json",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "19JYNDx1iTcBVcS4ShVaXt210FJEHq2-3",
+          "mode": "list",
+          "cachedResultName": "n8ns",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/19JYNDx1iTcBVcS4ShVaXt210FJEHq2-3"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        640
+      ],
+      "id": "2b8457ac-d864-4a17-a8eb-8f1d1bfb3238",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "065bc632-13db-4ea1-88b1-91084f92f9aa",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -720,
+        848
+      ],
+      "id": "3bbaea33-cf73-4a12-9a19-b44dc9585349",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "=1COQDOF27PyS3XHE6IEsNKsdqDsUW5eq5mJ-r4sFFEXY",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "2025-10",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_-Zi2f8WbZdo7xP9SZsBWMmgf5ARDflxE2FqFE8_Olo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "입력 날짜": "={{ $json.createdTime }}",
+            "파일 종류": "={{ $json.mimeType }}",
+            "파일명": "={{ $json.name }}",
+            "파일 링크": "={{ $json.webViewLink }}"
+          },
+          "matchingColumns": [
+            "입력 날짜"
+          ],
+          "schema": [
+            {
+              "id": "한 줄 정리",
+              "displayName": "한 줄 정리",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "입력 날짜",
+              "displayName": "입력 날짜",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "파일 종류",
+              "displayName": "파일 종류",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "파일명",
+              "displayName": "파일명",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "파일 링크",
+              "displayName": "파일 링크",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "exportLinks",
+              "displayName": "exportLinks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "parents",
+              "displayName": "parents",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lastModifyingUser",
+              "displayName": "lastModifyingUser",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "owners",
+              "displayName": "owners",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "permissions",
+              "displayName": "permissions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "spaces",
+              "displayName": "spaces",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "capabilities",
+              "displayName": "capabilities",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "permissionIds",
+              "displayName": "permissionIds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "linkShareMetadata",
+              "displayName": "linkShareMetadata",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "downloadRestrictions",
+              "displayName": "downloadRestrictions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "kind",
+              "displayName": "kind",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "mimeType",
+              "displayName": "mimeType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "starred",
+              "displayName": "starred",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "trashed",
+              "displayName": "trashed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "explicitlyTrashed",
+              "displayName": "explicitlyTrashed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "version",
+              "displayName": "version",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "webViewLink",
+              "displayName": "webViewLink",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "iconLink",
+              "displayName": "iconLink",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "hasThumbnail",
+              "displayName": "hasThumbnail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "thumbnailLink",
+              "displayName": "thumbnailLink",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "thumbnailVersion",
+              "displayName": "thumbnailVersion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "viewedByMe",
+              "displayName": "viewedByMe",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "viewedByMeTime",
+              "displayName": "viewedByMeTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "createdTime",
+              "displayName": "createdTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "modifiedTime",
+              "displayName": "modifiedTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "modifiedByMeTime",
+              "displayName": "modifiedByMeTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "modifiedByMe",
+              "displayName": "modifiedByMe",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "shared",
+              "displayName": "shared",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ownedByMe",
+              "displayName": "ownedByMe",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "viewersCanCopyContent",
+              "displayName": "viewersCanCopyContent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "copyRequiresWriterPermission",
+              "displayName": "copyRequiresWriterPermission",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "writersCanShare",
+              "displayName": "writersCanShare",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "size",
+              "displayName": "size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "quotaBytesUsed",
+              "displayName": "quotaBytesUsed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "isAppAuthorized",
+              "displayName": "isAppAuthorized",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "inheritedPermissionsDisabled",
+              "displayName": "inheritedPermissionsDisabled",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -960,
+        800
+      ],
+      "id": "48184c94-614c-48a0-ad1f-431fd5f809fb",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9RSopU1t2HdjaDyZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1S9cuhAsxgF8AbqT2qYOozwGfwcWegZPA",
+          "mode": "list",
+          "cachedResultName": "수현_sheets",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1S9cuhAsxgF8AbqT2qYOozwGfwcWegZPA"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -512,
+        816
+      ],
+      "id": "3c8a50a0-a337-48be-8e90-df2f15d46d8a",
+      "name": "Move file2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive Trigger').item.json.permissions[1].id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1TwR8_6bz99A9-xzwBQr1xiTnVK3DV5tn",
+          "mode": "list",
+          "cachedResultName": "수현_docs",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1TwR8_6bz99A9-xzwBQr1xiTnVK3DV5tn"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -496,
+        976
+      ],
+      "id": "523d1dee-8c2a-4104-9e5c-1f7c60e60807",
+      "name": "Move file4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "WnIa49TTDzQsY3zg",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Move file2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Move file4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "363888fe-4c46-46e1-ab31-ea3179f4c7b9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2bf553d4d1dd317cd7117c0529f10dcbe8def03b5c85f9bd0398de16237e517c"
+  },
+  "id": "iqWBWPTLMbDQgDBw",
+  "tags": []
+}
