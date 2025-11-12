@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메일 발송 폼</title>
+</head>
+<body>
+
+<h2>메일 발송</h2>
+
+<form action="https://helena2.app.n8n.cloud/webhook-test/7ed68e4e-5670-403b-8b09-e7383e1ac98c" method="POST">
+  
+  <div>
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title" required>
+  </div>
+
+  <div>
+    <label for="body">내용:</label>
+    <textarea id="body" name="body" required></textarea>
+  </div>
+
+  <button type="submit">전송하기</button>
+</form>
+
+<p>제출 후 페이지가 새로고침되면서 Webhook에 바로 데이터 전송됩니다.</p>
+
+</body>
+</html>
