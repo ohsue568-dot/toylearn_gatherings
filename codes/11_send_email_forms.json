@@ -1,0 +1,183 @@
+{
+  "name": "11_send_email_forms_fixed",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "7ed68e4e-5670-403b-8b09-e7383e1ac98c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -496,
+        -288
+      ],
+      "id": "4aa01951-5c36-4889-94b4-66d7bf00983b",
+      "name": "Webhook",
+      "webhookId": "7ed68e4e-5670-403b-8b09-e7383e1ac98c"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uHQGbss-PaMwzGa4AKmVPpwxdx_Hj99FydlW_E9RkIg",
+          "mode": "list",
+          "cachedResultName": "Member_informations의 사본",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uHQGbss-PaMwzGa4AKmVPpwxdx_Hj99FydlW_E9RkIg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uHQGbss-PaMwzGa4AKmVPpwxdx_Hj99FydlW_E9RkIg/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -288,
+        -288
+      ],
+      "id": "61fcd6f0-5e84-4360-a4d4-a1b009a374a9",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "PH3kK4PNrHbIuHZP",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 기준 이메일\nconst myEmail = \"riswelliswell@gmail.com\";\n\n// Google Sheets에서 가져온 모든 데이터\nconst allData = items;\n\n// 내 이메일이 있는 인덱스 찾기\nconst myIndex = allData.findIndex(item => item.json[\"option gmail\"] === myEmail);\n\n// 결과 담을 배열\nlet filteredEmails = [];\n\nif (myIndex !== -1) {\n  const sliceEnd = Math.min(myIndex + 4, allData.length); // 내 이메일 + 최대 3명\n  const selected = allData.slice(myIndex, sliceEnd);\n\n  // 이메일만 추출 + 빈 문자열 제거\n  filteredEmails = selected\n    .map(item => item.json[\"option gmail\"])\n    .filter(email => email && email.trim() !== \"\") // 빈 값 제거\n    .map(email => ({ json: { email } }));\n}\n\nreturn filteredEmails;\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        -288
+      ],
+      "id": "789ed94e-b6fa-47c1-a2df-4369c320b5d8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "093ec4f5-d936-48ef-9f74-74b9279d068c",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "3e896839-bf6e-4fc2-ba10-ffbb831dad9d",
+              "name": "subject",
+              "value": "={{ $('Webhook').first().json.body }}",
+              "type": "string"
+            },
+            {
+              "id": "a84d44fe-532b-4289-ac1a-a65cb167ea33",
+              "name": "contents",
+              "value": "={{ $('Webhook').first().json.body }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        -288
+      ],
+      "id": "360fb458-8e58-4119-b5df-9b5667adad86",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Code in JavaScript').item.json.email }}",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.contents }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        368,
+        -288
+      ],
+      "id": "7bedb479-7265-4cb5-877b-9407d6f39787",
+      "name": "Send a message",
+      "webhookId": "74448f26-742d-4d39-a2e6-7ca7c307e48d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "WqgH4OvIn4z2qLgV",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bc323c12-a784-4bc7-9b43-6334239d5c29",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "856514f4de667eff4a25757afa31f9deb48e494cfa2dd0f25d85135bdd2f7d53"
+  },
+  "id": "NUUdAhqPNYEDLhSm",
+  "tags": []
+}
