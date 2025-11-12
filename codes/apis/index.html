@@ -1,14 +1,285 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>This is a title</title>
-  </head>
-  <body>
-    <div>
-        <p>Hello world!</p>
-        <h1>Welcome to 수현이!</h1>
-        Hello world!
-        Welcome to 수현이!
-    </div>
-  </body>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울 여행 가이드 (HTML 태그 연습)</title>
+    
+    <!-- A simple CSS style block for readability -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #333;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        header, footer {
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        header h1 {
+            margin: 0;
+        }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        section {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #555;
+        }
+        /* Style for links */
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        /* Style for lists */
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        /* Style for tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        thead {
+            background-color: #f2f2f2;
+        }
+        /* Style for images */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        figure {
+            margin: 0;
+            flex-basis: 250px; /* Set a base size for each image container */
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        figure img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        figcaption {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
+            color: #555;
+            background-color: #f8f8f8;
+        }
+        /* Style for footer address */
+        footer address {
+            font-style: normal;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- <header> defines the header section of the page -->
+    <header>
+        <!-- <h1> is the main title of the page -->
+        <h1>서울 여행 가이드</h1>
+        <!-- <p> is a paragraph tag for the subtitle -->
+        <p>HTML 태그 연습을 위한 예제 페이지</p>
+    </header>
+
+    <!-- <main> tag wraps the main content of the page -->
+    <main>
+
+        <!-- <section> defines a thematic section -->
+        <section id="links">
+            <!-- <h2> is a section heading -->
+            <h2>유용한 링크 (Links)</h2>
+            <p>여행 계획에 도움이 되는 링크들:</p>
+            
+            <!-- <ul> is an Unordered List (bullets) -->
+            <ul>
+                <!-- <li> is a List Item -->
+                <!-- <a> is an Anchor tag (link). target="_blank" opens in a new tab. -->
+                <li><a href="https://kto.visitkorea.or.kr" target="_blank">한국관광공사</a></li>
+                <li><a href="https://www.kma.go.kr" target="_blank">기상청 날씨</a></li>
+                <li><a href="https://maps.google.com" target="_blank">구글 지도</a></li>
+            </ul>
+            <!-- Internal link to the element with id="contact" -->
+            <p><a href="#contact">페이지 하단으로 이동</a></p>
+        </section>
+
+        <section id="preparations">
+            <h2>여행 준비물 (Lists)</h2>
+            
+            <!-- <h3> is a sub-heading -->
+            <h3>필수 준비물 (Unordered List)</h3>
+            <!-- <ul> creates a bulleted list -->
+            <ul>
+                <li>여권 및 신분증</li>
+                <li>현금 및 신용카드</li>
+                <li>스마트폰 및 충전기</li>
+                <li>편한 신발</li>
+                <li>카메라</li>
+            </ul>
+
+            <h3>여행 일정 (Ordered List)</h3>
+            <!-- <ol> creates a numbered list -->
+            <ol>
+                <li>경복궁 관람 (오전 10시)</li>
+                <li>인사동 전통거리 산책 (오후 12시)</li>
+                <li>명동에서 쇼핑 (오후 3시)</li>
+                <li>남산타워 야경 감상 (오후 7시)</li>
+                <li>한강 공원 산책 (오후 9시)</li>
+            </ol>
+        </section>
+
+        <section id="tables">
+            <h2>여행 정보 테이블 (Tables)</h2>
+            
+            <!-- <table> defines a table -->
+            <h3>주요 관광지 정보:</h3>
+            <table>
+                <!-- <thead> groups the header content in a table -->
+                <thead>
+                    <!-- <tr> defines a table row -->
+                    <tr>
+                        <!-- <th> defines a table header cell -->
+                        <th>관광지</th>
+                        <th>위치</th>
+                        <th>입장료</th>
+                        <th>추천 시간</th>
+                    </tr>
+                </thead>
+                <!-- <tbody> groups the body content in a table -->
+                <tbody>
+                    <tr>
+                        <!-- <td> defines a table data cell -->
+                        <td>경복궁</td>
+                        <td>종로구</td>
+                        <td>3,000원</td>
+                        <td>2-3시간</td>
+                    </tr>
+                    <tr>
+                        <td>남산타워</td>
+                        <td>용산구</td>
+                        <td>11,000원</td>
+                        <td>1-2시간</td>
+                    </tr>
+                    <tr>
+                        <td>명동 쇼핑거리</td>
+                        <td>중구</td>
+                        <td>무료</td>
+                        <td>2-3시간</td>
+                    </tr>
+                    <tr>
+                        <td>한강 공원</td>
+                        <td>여의도</td>
+                        <td>무료</td>
+                        <td>1-2시간</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>음식점 추천:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>음식점</th>
+                        <th>메뉴</th>
+                        <th>가격대</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>전통 한정식</td>
+                        <td>비빔밥, 불고기</td>
+                        <td>15,000원</td>
+                    </tr>
+                    <tr>
+                        <td>분식집</td>
+                        <td>떡볶이, 김밥</td>
+                        <td>5,000원</td>
+                    </tr>
+                    <tr>
+                        <td>삼겹살집</td>
+                        <td>삼겹살, 김치찌개</td>
+                        <td>12,000원</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="gallery">
+            <h2>여행 사진 갤러리 (Images)</h2>
+            <p>서울의 아름다운 풍경들:</p>
+            
+            <div class="gallery">
+                <!-- <figure> is used to enclose media content, like an image, with a caption -->
+                <figure>
+                    <!-- <img> is the image tag. src is the source, alt is alternate text. -->
+                    <img src="https://placehold.co/600x400/a98d6b/ffffff?text=경복궁" alt="경복궁 전경">
+                    <!-- <figcaption> provides a caption for the <figure> -->
+                    <figcaption>경복궁 - 조선시대 대표 궁궐</figcaption>
+                </figure>
+                
+                <figure>
+                    <img src="https://placehold.co/600x400/3a5a8c/ffffff?text=남산타워" alt="남산타워 야경">
+                    <figcaption>남산타워 - 서울의 야경 명소</figcaption>
+                </figure>
+                
+                <figure>
+                    <img src="https://placehold.co/600x400/77ab59/ffffff?text=한강+공원" alt="한강 공원 풍경">
+                    <figcaption>한강 공원 - 시민들의 휴식 공간</figcaption>
+                </figure>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- <footer> defines the footer section, id="contact" is the target for the internal link -->
+    <footer id="contact">
+        <h2>연락처 정보</h2>
+        <!-- <address> tag is used for contact information -->
+        <address>
+            <!-- mailto: link creates a new email -->
+            Email: <a href="mailto:travel@example.com">travel@example.com</a><br>
+            전화: 02-1234-5678<br>
+            주소: 서울특별시 중구 세종대로 110
+        </address>
+    </footer>
+
+</body>
 </html>
