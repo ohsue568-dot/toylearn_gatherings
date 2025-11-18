@@ -16,7 +16,19 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
       text-align: center;
       padding: 80px 20px;
+      background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?crop=entropy&cs=tinysrgb&fit=crop&w=1200&h=600');
+      background-size: cover;
+      background-position: center;
+      position: relative;
     }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(255, 126, 86, 0.5); /* 그라데이션 오버레이 */
+      border-radius: 20px;
+    }
+    .hero > * { position: relative; z-index: 1; }
     .card {
       border: none;
       border-radius: 15px;
@@ -28,7 +40,11 @@
       transform: translateY(-5px);
       box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
-    .card-img-top { height: 180px; object-fit: cover; }
+    .card-img-top {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
     .btn-primary {
       background-color: #FF6B6B;
       border: none;
@@ -74,10 +90,10 @@
     <div class="row">
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1604908177525-9f3d8822f5fa?crop=entropy&cs=tinysrgb&fit=max&h=200&w=400" class="card-img-top" alt="김치찌개">
+          <img src="https://images.unsplash.com/photo-1604908177525-9f3d8822f5fa?crop=entropy&cs=tinysrgb&fit=crop&w=400&h=200" class="card-img-top" alt="김치찌개">
           <div class="card-body">
             <h5 class="card-title fw-bold">돼지고기 김치찌개</h5>
-            <p class="card-text">한국인의 소울푸드, 김치찌개를 15분 만에 만드는 비법!</p>
+            <p class="card-text">한국인의 소울푸드, 15분 만에 만드는 비법!</p>
             <a href="recipes.html" class="btn btn-primary">레시피 보기</a>
           </div>
         </div>
@@ -85,10 +101,10 @@
 
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1604908177525-9f3d8822f5fb?crop=entropy&cs=tinysrgb&fit=max&h=200&w=400" class="card-img-top" alt="계란밥">
+          <img src="https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?crop=entropy&cs=tinysrgb&fit=crop&w=400&h=200" class="card-img-top" alt="계란밥">
           <div class="card-body">
             <h5 class="card-title fw-bold">간장 계란밥</h5>
-            <p class="card-text">자취생 필수 요리! 5분이면 완성되는 마약 간장 계란밥.</p>
+            <p class="card-text">5분 만에 완성되는 마약 계란밥!</p>
             <a href="recipes.html" class="btn btn-primary">레시피 보기</a>
           </div>
         </div>
@@ -96,7 +112,7 @@
 
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="https://images.unsplash.com/photo-1604908177525-9f3d8822f5fc?crop=entropy&cs=tinysrgb&fit=max&h=200&w=400" class="card-img-top" alt="파스타">
+          <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?crop=entropy&cs=tinysrgb&fit=crop&w=400&h=200" class="card-img-top" alt="파스타">
           <div class="card-body">
             <h5 class="card-title fw-bold">알리오 올리오</h5>
             <p class="card-text">냉장고 속 재료로 뚝딱! 레스토랑 부럽지 않은 알리오 올리오.</p>
@@ -122,4 +138,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
