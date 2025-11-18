@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>브랜드 포트폴리오 — [이름]</title>
+  <meta name="description" content="브랜드 캠페인처럼 구성한 콘텐츠 마케터 포트폴리오. 케이스 스터디 중심의 스토리텔링." />
+  <!-- 기본 스타일 (모바일 우선) -->
+  <style>
+    :root{
+      --bg:#0f1115;
+      --card:#0b0c0e;
+      --muted:#9aa3ad;
+      --accent:#4fd1c5;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --maxw:1100px;
+      --ff: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--ff);
+      background:linear-gradient(180deg,#071018 0%, #0f1115 60%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:24px;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{width:100%;max-width:var(--maxw);}
+
+    /* Header */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:28px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:inherit;
+    }
+    .brand .logo{
+      width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7dd3fc);
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:#041014;
+      box-shadow:0 6px 20px rgba(79,209,197,0.12);
+    }
+    nav{display:flex;gap:14px;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.95rem;padding:8px;border-radius:8px}
+    nav a:hover{color:#fff;background:var(--glass)}
+
+    /* Hero */
+    .hero{
+      background:linear-gradient(90deg, rgba(79,209,197,0.06), transparent);
+      padding:28px;border-radius:var(--radius);
+      display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:22px;
+    }
+    .hero h1{margin:0;font-size:1.6rem}
+    .hero p{margin:0;color:var(--muted);font-size:0.98rem}
+    .cta-row{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;background:#042b2a;color:#bff7f0;font-weight:600
+    }
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* Grid sections */
+    .grid{display:grid;gap:18px;margin-bottom:18px}
+    @media(min-width:900px){
+      .hero{grid-template-columns:1fr 360px;align-items:center}
+      .projects-grid{grid-template-columns:repeat(2,1fr)}
+      .aside{padding:20px}
+    }
+
+    /* Projects */
+    .projects-grid{display:grid;grid-template-columns:1fr;gap:14px}
+    .project{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+      display:flex;gap:14px;align-items:flex-start;
+    }
+    .thumb{width:86px;height:86px;border-radius:8px;background:#061417;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .project h3{margin:0 0 6px 0}
+    .project p{margin:0;color:var(--muted);font-size:0.95rem}
+    .meta{margin-top:8px;color:var(--muted);font-size:0.86rem}
+
+    /* Skills / About / Contact cards */
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.03);
+    }
+    .skill-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .skill{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:0.88rem;color:var(--muted)}
+
+    /* Modal (case study) */
+    .modal-backdrop{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,10,0.6);z-index:60;padding:20px;
+    }
+    .modal{
+      width:100%;max-width:900px;background:linear-gradient(180deg,#07131a,#051018);padding:22px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);
+      color:#eaf6f4;box-shadow:0 12px 40px rgba(1,6,10,0.6);
+    }
+    .modal h2{margin-top:0}
+    .close-btn{float:right;border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem}
+
+    footer{margin-top:20px;color:var(--muted);font-size:0.9rem;text-align:center}
+
+    /* Small utilities */
+    .muted{color:var(--muted)}
+    a.link{color:var(--accent);text-decoration:none}
+    .inline-row{display:flex;gap:10px;align-items:center}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="page">
+    <header>
+      <a class="brand" href="#home" aria-label="홈으로">
+        <div class="logo">BR</div>
+        <div>
+          <div style="font-weight:700">[이름]</div>
+          <div style="font-size:0.85rem;color:var(--muted)">콘텐츠 마케터 • 캠페인 전략가</div>
+        </div>
+      </a>
+
+      <nav aria-label="주내비게이션">
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact" class="ghost" style="padding:8px 12px;border-radius:10px">Contact</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="home" role="region" aria-label="소개">
+      <div>
+        <h1>브랜드 캠페인처럼 설계한 <br><strong style="color:var(--accent)">나의 포트폴리오</strong></h1>
+        <p>문제 정의에서 해결 전략, KPI까지—하나의 캠페인을 설계하듯 프로젝트를 풀어냅니다. 사례 중심의 상세 케이스 스터디로 실무 역량을 보여주세요.</p>
+        <div class="cta-row">
+          <button class="btn" id="openCaseBtn" aria-haspopup="dialog">케이스 스터디 보기</button>
+          <a class="btn ghost" href="#" id="downloadResume">프로필(PDF)</a>
+          <a class="btn ghost" href="https://github.com/your-username/my-portfolio-project" target="_blank" rel="noopener" style="display:inline-flex;align-items:center">GitHub</a>
+        </div>
+      </div>
+
+      <aside class="card aside" style="text-align:left">
+        <div style="font-weight:700">Quick Info</div>
+        <div class="muted" style="margin-top:6px;font-size:0.95rem">
+          캠페인형 포트폴리오 • 모바일 우선 • 접근성 고려
+        </div>
+        <div style="margin-top:12px">
+          <div class="muted" style="font-size:0.85rem">Tech</div>
+          <div class="skill-list" style="margin-top:8px">
+            <span class="skill">HTML</span><span class="skill">CSS</span><span class="skill">JavaScript</span><span class="skill">Figma</span>
+            <span class="skill">Git</span><span class="skill">GSAP (옵션)</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="grid">
+      <h2 style="margin:0 0 8px 0">Projects</h2>
+
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <article class="project" data-case="case-1">
+          <div class="thumb" aria-hidden="true">C1</div>
+          <div>
+            <h3>브랜드 리포지셔닝 캠페인 — 리드 생성 향상</h3>
+            <p class="muted">문제: 낮은 전환율 / 해결: 콘텐츠 퍼널 재설계 · AB 테스트 · KPI 수립</p>
+            <div class="meta">기간: 3개월 • 역할: 캠페인 기획 · 콘텐츠 전략 · 데이터 분석</div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project" data-case="case-2">
+          <div class="thumb" aria-hidden="true">C2</div>
+          <div>
+            <h3>신제품 출시 콘텐츠 캠페인 — 참여 증대</h3>
+            <p class="muted">문제: 인지도 부족 / 해결: 온·오프 통합 캠페인 · 인플루언서 협업</p>
+            <div class="meta">기간: 6주 • 역할: 캠페인 콘셉트 · KPI 설정 · 보고서 작성</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Two-column: About + Skills -->
+    <section class="grid" style="grid-template-columns:1fr;gap:14px">
+      <div style="display:grid;gap:14px">
+        <div class="card" id="about">
+          <h3>About — 브랜드로서의 나</h3>
+          <p class="muted">나는 '문제를 콘텐츠로 해결하는 사람'입니다. 제품과 서비스의 핵심 가치를 찾아내고, 이를 스토리로 풀어내어 실제 성과로 연결시키는 것을 목표로 합니다.</p>
+          <p style="margin-top:12px" class="muted">톤앤매너: 미니멀 • 직관적 • 데이터 기반</p>
+        </div>
+
+        <div class="card" id="skills">
+          <h3>Skills</h3>
+          <div class="skill-list" aria-hidden="true">
+            <span class="skill">콘텐츠 전략</span>
+            <span class="skill">퍼널 설계</span>
+            <span class="skill">GA4 / 데이터분석</span>
+            <span class="skill">SEO / ASO</span>
+            <span class="skill">프로젝트 매니지먼트</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog preview -->
+    <section id="blog" class="grid">
+      <h2 style="margin:0 0 8px 0">Blog</h2>
+      <div class="card">
+        <article style="margin-bottom:12px">
+          <h4 style="margin:0">콘텐츠 퍼널 재설계로 전환율 18% 개선</h4>
+          <div class="muted" style="font-size:0.9rem;margin-top:6px">케이스 스터디 요약 · 2025-10-05</div>
+          <p class="muted" style="margin-top:8px">간단한 A/B 테스트 구조와 카피 변경만으로도 유의미한 전환 개선을 달성한 경험을 공유합니다.</p>
+        </article>
+        <a class="link" href="#projects">더 많은 글 보기 →</a>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="grid">
+      <h2 style="margin:0 0 8px 0">Contact</h2>
+      <div class="card">
+        <form id="contactForm" action="#" onsubmit="handleContact(event)">
+          <label style="display:block;margin-bottom:8px">
+            <div style="font-weight:700">이름</div>
+            <input type="text" id="name" required style="width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+          </label>
+          <label style="display:block;margin-bottom:8px">
+            <div style="font-weight:700">이메일</div>
+            <input type="email" id="email" required style="width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+          </label>
+          <label style="display:block;margin-bottom:12px">
+            <div style="font-weight:700">메시지</div>
+            <textarea id="message" rows="4" required style="width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></textarea>
+          </label>
+
+          <div class="inline-row">
+            <button class="btn" type="submit">보내기</button>
+            <button class="btn ghost" type="button" onclick="location.href='mailto:youremail@example.com'">이메일로</button>
+          </div>
+          <div id="contactNotice" class="muted" style="margin-top:10px;font-size:0.9rem"></div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> [이름] • <a class="link" href="https://github.com/your-username" target="_blank" rel="noopener">GitHub</a> • <span class="muted">Made with intent</span>
+    </footer>
+  </div>
+
+  <!-- Case Study Modal -->
+  <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <button class="close-btn" aria-label="닫기" onclick="closeModal()">✕</button>
+      <h2>케이스 스터디 — 브랜드 리포지셔닝 캠페인</h2>
+      <p class="muted"><strong>문제 정의</strong><br>제품 인지도는 있으나 전환으로 연결되지 않는 구조. 낮은 리드 획득 효율.</p>
+      <p class="muted"><strong>인사이트</strong><br>타깃의 고려 단계에서 브랜드 메시지가 약했고, CTA가 분산되어 있음.</p>
+      <p class="muted"><strong>해결 전략</strong><br>콘텐츠 퍼널 재설계(TOFU→MOFU→BOFU), 맞춤형 랜딩, 카피 테스트, 이메일 시퀀스 자동화.</p>
+      <p class="muted"><strong>KPI</strong><br>리드 획득 비용(CPL) 25% 절감, 전환율 15%p 향상 목표.</p>
+      <p class="muted"><strong>결과</strong><br>3개월 내 전환율 18% 상승, CPL 31% 절감. 보고서 PDF 및 시각화 포함.</p>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <a class="btn ghost" href="#" id="downloadCasePdf">PDF 다운로드</a>
+        <a class="btn" href="https://your-case-demo.example.com" target="_blank" rel="noopener">데모 보기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 스크립트: 인터랙션 -->
+  <script>
+    // 기본 초기화
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Modal 열기/닫기
+    const modal = document.getElementById('modal');
+    function openModal(caseId){
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('openCaseBtn').addEventListener('click', ()=>{
+      openModal('case-1');
+    });
+    // 배경 클릭하면 닫기
+    modal.addEventListener('click', (e)=>{
+      if(e.target === modal) closeModal();
+    });
+
+    // 프로젝트 카드 클릭으로 모달 열기 (데이터 케이스 id로 확장 가능)
+    document.querySelectorAll('.project').forEach(p=>{
+      p.addEventListener('click', ()=> openModal(p.dataset.case));
+    });
+
+    // Contact 핸들러 (여기선 간단히 mailto로 연결 — 백엔드 넣을 경우 fetch 사용)
+    function handleContact(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      // 기본 유효성 체크 (추가 로직 가능)
+      if(!name||!email||!message){
+        document.getElementById('contactNotice').textContent = '모든 항목을 입력해주세요.';
+        return;
+      }
+      // mailto 링크 생성 (간단한 데모용)
+      const subject = encodeURIComponent('[포트폴리오 문의] ' + name);
+      const body = encodeURIComponent(`이름: ${name}\n이메일: ${email}\n\n메시지:\n${message}`);
+      window.location.href = `mailto:youremail@example.com?subject=${subject}&body=${body}`;
+    }
+
+    // 다운로드 링크들(예: 실제 파일 연결 시 href 갱신)
+    document.getElementById('downloadResume').addEventListener('click', function(e){
+      // 데모 동작: 예시 PDF 경로로 리다이렉트 (파일 업로드 후 경로 교체)
+      e.preventDefault();
+      alert('이 버튼은 프로필(PDF) 다운로드로 설정할 수 있습니다. GitHub에 PDF 업로드 후 링크로 교체하세요.');
+      // location.href = '/assets/your-resume.pdf';
+    });
+    document.getElementById('downloadCasePdf').addEventListener('click', function(e){
+      e.preventDefault();
+      alert('케이스 스터디 PDF는 /assets/case-study.pdf 로 업로드한 뒤 링크를 교체하세요.');
+    });
+  </script>
+</body>
+</html>
