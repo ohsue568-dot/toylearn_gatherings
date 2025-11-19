@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Project Manager (CRUD)</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; background:#fafafa; }
+    h1 { margin-bottom: 20px; }
+    .container { max-width: 900px; margin: auto; }
+
+    /* 폼 */
+    form { background:#fff; padding:20px; border:1px solid #ddd; border-radius:8px; margin-bottom:32px; }
+    form input, form textarea { width:100%; padding:10px; margin-top:8px; margin-bottom:16px; border:1px solid #ccc; border-radius:4px; }
+    form button { padding:10px 16px; cursor:pointer; border:none; background:#111; color:#fff; border-radius:4px; }
+
+    /* 테이블 */
+    table { width:100%; border-collapse: collapse; background:#fff; }
+    th, td { padding:14px; border:1px solid #ddd; }
+    th { background:#eee; }
+
+    /* 버튼 */
+    .btn { padding:6px 12px; cursor:pointer; border:none; border-radius:4px; }
+    .edit { background:#0066ff; color:#fff; }
+    .delete { background:#ff3b30; color:#fff; margin-left:6px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>프로젝트 관리자 (CRUD)</h1>
+
+  <!-- CREATE / UPDATE FORM -->
+  <form id="projectForm">
+    <h3 id="formTitle">새 프로젝트 추가</h3>
+    <input type="hidden" id="editId" />
+
+    <label>프로젝트 제목</label>
+    <input type="text" id="title" required />
+
+    <label>설명</label>
+    <textarea id="description" rows="3" required></textarea>
+
+    <label>사용 기술 (쉼표로 구분)</label>
+    <input type="text" id="tech" required />
+
+    <button type="submit">저장</button>
+  </form>
+
+  <!-- 프로젝트 리스트 -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>설명</th>
+        <th>기술</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody id="projectList"></tbody>
+  </table>
+</div>
+
+<script>
+  // JSON 형태로 로컬 관리 (DB 대체용)
+  let projects = [];
+
+  const listEl = document.getElementById("projectList");
+  const form = document.getElementById("projectForm");
+  const titleEl = document.getElementById("title");
+  const descEl = document.getElementById("description");
+  const techEl = document.getElementById("tech");
+  const editIdEl = document.getElementById("editId");
+  const formTitle = document.getElementById("formTitle");
+
+  // READ
+  function renderProjects() {
+    listEl.innerHTML = "";
+    projects.forEach(p => {
+      const row = `
+        <tr>
+          <td>${p.id}</td>
+          <td>${p.title}</td>
+          <td>${p.description}</td>
+          <td>${p.tech.join(', ')}</td>
+          <td>
+            <button class="btn edit" onclick="editProject(${p.id})">수정</button>
+            <button class="btn delete" onclick="deleteProject(${p.id})">삭제</button>
+          </td>
+        </tr>
+      `;
+      listEl.innerHTML += row;
+    });
+  }
+
+  // CREATE + UPDATE
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const id = editIdEl.value;
+    const data = {
+      id: id ? Number(id) : Date.now(),
+      title: titleEl.value,
+      description: descEl.value,
+      tech: techEl.value.split(',').map(t => t.trim())
+    };
+
+    if (id) {
+      // UPDATE
+      const index = projects.findIndex(p => p.id == id);
+      projects[index] = data;
+      formTitle.textContent = "새 프로젝트 추가";
+    } else {
+      // CREATE
+      projects.push(data);
+    }
+
+    form.reset();
+    editIdEl.value = "";
+    renderProjects();
+  });
+
+  // UPDATE 준비
+  function editProject(id) {
+    const p = projects.find(pr => pr.id === id);
+    titleEl.value = p.title;
+    descEl.value = p.description;
+    techEl.value = p.tech.join(', ');
+    editIdEl.value = p.id;
+    formTitle.textContent = "프로젝트 수정";
+  }
+
+  // DELETE
+  function deleteProject(id) {
+    projects = projects.filter(p => p.id !== id);
+    renderProjects();
+  }
+
+  // 초기 렌더링
+  renderProjects();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Site | B회사 지원용</title>
+  <style>
+    /* 폰트 임베드 예시 */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+    /* ===== 기본 스타일 ===== */
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif; /* 폰트 변경 */
+        color: #333; /* 텍스트 색상 더 밝게 */
+        background: #fcfcfc; /* 배경색 더 밝게 */
+        line-height: 1.6;
+    }
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.9); /* 투명도 조정 */
+        border-bottom: 1px solid #e0e0e0; /* 테두리 색상 밝게 */
+        padding: 16px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.05); /* 그림자 부드럽게 */
+    }
+    .logo {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #4a4a4a;
+    }
+    header nav a {
+        margin-left: 25px;
+        text-decoration: none;
+        color: #555;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    header nav a:hover {
+        color: #6a00ff; /* 호버 색상 - 밝은 보라 */
+    }
+    /* 관리자 로그인/로그아웃 버튼 스타일 */
+    .admin-btn {
+        padding: 9px 18px;
+        background-color: #6a00ff; /* 밝은 보라 */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.95em;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .admin-btn:hover {
+        background-color: #7b29ff; /* 호버 시 더 밝게 */
+        transform: translateY(-2px);
+    }
+    section {
+        padding: 100px 32px; /* 패딩 조정 */
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    h1, h2 {
+        margin-bottom: 25px;
+        color: #4a4a4a;
+        font-weight: 700;
+    }
+    h1 { font-size: 2.8em; }
+    h2 { font-size: 2.2em; }
+
+
+    /* ===== Home 섹션: 여백 없이 이미지 구성 ===== */
+    #home {
+        padding: 0;
+        max-width: none;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        /* 깨지지 않는 예시 이미지로 교체 */
+        background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80') no-repeat center center/cover;
+        color: white;
+        position: relative;
+    }
+    .home-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); /* 오버레이 색상 더 밝게 */
+    }
+    .home-content {
+        z-index: 1;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.15); /* 배경 투명도 조정 */
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+    #home h1 {
+        font-size: 3.8em;
+        margin-bottom: 15px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    #home p {
+        font-size: 1.3em;
+        color: #e0e0e0;
+        max-width: 800px;
+        margin: 0 auto 20px auto;
+    }
+    .portfolio-type {
+        font-size: 1.4em;
+        font-weight: 700;
+        color: #ffeb3b; /* 강조 색상 - 밝은 노랑 */
+        margin-top: 20px;
+    }
+
+    /* ===== About 섹션 ===== */
+    #about p {
+        font-size: 1.1em;
+        color: #555;
+        margin-bottom: 15px;
+    }
+    #about p strong {
+        color: #4a4a4a;
+    }
+
+    /* ===== 프로젝트 카드 (썸네일 이미지 추가) ===== */
+    .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+    }
+    .project-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* 그림자 부드럽게 */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+    .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+    .project-thumbnail {
+        width: 100%;
+        height: 220px; /* 썸네일 높이 고정 */
+        display: block;
+        object-fit: cover; /* 이미지 비율 유지 및 채우기 */
+        transition: transform 0.3s ease;
+    }
+    .project-card:hover .project-thumbnail {
+        transform: scale(1.03); /* 호버 시 이미지 확대 */
+    }
+    .project-info {
+        padding: 25px;
+    }
+    .project-info h3 {
+        margin-top: 0;
+        font-size: 1.6em;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    .project-info p {
+        font-size: 1em;
+        color: #666;
+        margin-bottom: 0;
+    }
+    .add-project-btn {
+        background-color: #28a745; /* 밝은 녹색 */
+    }
+    .add-project-btn:hover {
+        background-color: #2fb94c;
+    }
+
+    /* ===== 모달 기반 UI ===== */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* 모달 배경 더 밝게 */
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .modal.is-visible {
+        display: flex;
+        opacity: 1;
+    }
+    .modal-content {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        max-width: 850px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+    }
+    .modal.is-visible .modal-content {
+        transform: scale(1);
+    }
+    .close-btn {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        font-size: 28px;
+        cursor: pointer;
+        color: #666;
+        transition: color 0.2s ease;
+    }
+    .close-btn:hover {
+        color: #333;
+    }
+    .modal-content h3 {
+        color: #4a4a4a;
+        margin-bottom: 20px;
+        font-size: 1.8em;
+    }
+    .modal-content label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+    }
+    .modal-content input[type="email"],
+    .modal-content input[type="password"],
+    .modal-content input[type="text"],
+    .modal-content textarea {
+        width: calc(100% - 20px);
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1em;
+    }
+    .modal-content textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+    .modal-content button[type="submit"],
+    .modal-content button[type="button"] {
+        width: 100%;
+        padding: 12px;
+        background-color: #6a00ff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .modal-content button[type="submit"]:hover,
+    .modal-content button[type="button"]:hover {
+        background-color: #7b29ff;
+        transform: translateY(-1px);
+    }
+
+    /* ===== 푸터 ===== */
+    footer {
+        padding: 50px;
+        text-align: center;
+        border-top: 1px solid #e0e0e0;
+        margin-top: 80px;
+        background: #f8f8f8; /* 푸터 배경색 밝게 */
+        color: #777;
+        font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">My Portfolio</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <button class="admin-btn" id="admin-auth-btn" onclick="toggleAdminAuth()">Admin Login</button>
+    </nav>
+  </header>
+
+  <section id="home">
+    <div class="home-overlay"></div>
+    <div class="home-content">
+        <h1>창의적인 프로젝트로 가치를 더하는<br>프론트엔드 개발자 포트폴리오</h1>
+        <p>혁신적인 웹 경험을 위한 **사용자 중심 디자인** 및 **최신 기술 스택** 활용</p>
+        <div class="portfolio-type">B회사 지원용 포트폴리오</div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>🙋‍♂️ About Me</h2>
+    <p>**경력:** 5년차 프론트엔드 개발자로, React 및 Vue.js 기반의 대규모 웹 애플리케이션 개발에 참여했습니다. 특히, 성능 최적화 및 접근성 개선에 강점을 가지고 있습니다.</p>
+    <p>**스킬:** JavaScript (ES6+), TypeScript, React, Redux, Next.js, HTML5/CSS3, Sass/Styled-Components, Git/GitHub, **Firebase/Supabase (백엔드 연동 경험)**.</p>
+  </section>
+
+  <section id="projects">
+    <h2>💼 Projects</h2>
+    <div class="project-grid" id="project-list">
+      <div class="project-card" data-project-id="1" onclick="openProjectModal(1)">
+        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9d13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="프로젝트 1 썸네일" class="project-thumbnail">
+        <div class="project-info">
+          <h3>프로젝트 제목 1: 이커머스 솔루션</h3>
+          <p>Next.js와 Firebase를 사용한 고성능 쇼핑몰 구축 프로젝트.</p>
+        </div>
+      </div>
+
+      <div class="project-card" data-project-id="2" onclick="openProjectModal(2)">
+        <img src="https://images.unsplash.com/photo-1555949963-aa79dcefdc87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="프로젝트 2 썸네일" class="project-thumbnail">
+        <div class="project-info">
+          <h3>프로젝트 제목 2: SaaS 관리 대시보드</h3>
+          <p>사용자 친화적인 디자인이 적용된 React 기반 관리자 시스템 개발.</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 40px;">
+        <button class="admin-btn add-project-btn" style="display: none;" id="add-project-btn" onclick="openAddProjectModal()">+ 새 프로젝트 추가</button>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>📧 Contact</h2>
+    <p>더 자세한 정보나 협업 문의는 아래 이메일로 연락 주시기 바랍니다.</p>
+    <p>Email: **your.email@example.com**</p>
+  </section>
+
+  <footer>
+    © 2025 My Portfolio. All rights reserved. | **Powered by Firebase/Supabase**
+  </footer>
+
+  <div id="project-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('project-modal')">&times;</span>
+      <h3>프로젝트 상세 정보</h3>
+      <div id="modal-project-details">
+        <p>프로젝트 이름, 기간, 사용 기술, 기여도, 상세 설명, 주요 성과 등이 표시됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="admin-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('admin-modal')">&times;</span>
+      <h3 id="admin-modal-title">관리자 로그인</h3>
+      <form id="admin-form">
+        <div id="login-fields">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required><br>
+            <button type="submit">로그인</button>
+        </div>
+        
+        <div id="project-edit-fields" style="display: none;">
+            <label for="edit-project-id" style="display: none;">Project ID:</label>
+            <input type="hidden" id="edit-project-id"><br>
+
+            <label for="edit-title">제목:</label>
+            <input type="text" id="edit-title" required><br>
+
+            <label for="edit-summary">요약:</label>
+            <textarea id="edit-summary" required></textarea><br>
+
+            <label for="edit-detail">상세 내용:</label>
+            <textarea id="edit-detail" required></textarea><br>
+
+            <label for="edit-thumbnail">썸네일 이미지 (업로드):</label>
+            <input type="file" id="edit-thumbnail" accept="image/*"><br>
+
+            <button type="button" onclick="saveProject()">프로젝트 저장</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // **[1] Firebase 또는 Supabase SDK 초기화**
+    // 실제 프로젝트에서는 여기에 초기화 코드를 넣어야 합니다.
+    /*
+    import { initializeApp } from "firebase/app";
+    const firebaseConfig = { ... };
+    const app = initializeApp(firebaseConfig);
+    // 또는
+    // import { createClient } from '@supabase/supabase-js'
+    // const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    */
+    let isAdminLoggedIn = false; // 관리자 로그인 상태
+
+    // **[2] 모달 열기/닫기 공통 함수**
+    function openModal(id) {
+        document.getElementById(id).classList.add('is-visible');
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('is-visible');
+    }
+
+    // **[3] 관리자 로그인/로그아웃 토글**
+    function toggleAdminAuth() {
+        if (isAdminLoggedIn) {
+            // 로그아웃 처리
+            isAdminLoggedIn = false;
+            document.getElementById('admin-auth-btn').textContent = 'Admin Login';
+            document.getElementById('add-project-btn').style.display = 'none';
+            alert('관리자 로그아웃 되었습니다.');
+            // TODO: Firebase/Supabase signOut 로직 추가
+        } else {
+            // 로그인 모달 열기
+            document.getElementById('admin-modal-title').textContent = '관리자 로그인';
+            document.getElementById('login-fields').style.display = 'block';
+            document.getElementById('project-edit-fields').style.display = 'none';
+            document.getElementById('admin-form').reset(); // 폼 초기화
+            openModal('admin-modal');
+        }
+    }
+
+    // **[4] 프로젝트 추가 모달 열기 (관리자 전용)**
+    function openAddProjectModal() {
+        if (!isAdminLoggedIn) {
+            alert('관리자 로그인이 필요합니다.');
+            return;
+        }
+        document.getElementById('admin-modal-title').textContent = '새 프로젝트 추가';
+        document.getElementById('edit-project-id').value = ''; // 새 프로젝트는 ID 없음
+        document.getElementById('edit-title').value = '';
+        document.getElementById('edit-summary').value = '';
+        document.getElementById('edit-detail').value = '';
+        document.getElementById('edit-thumbnail').value = ''; // 파일 선택 초기화
+        document.getElementById('login-fields').style.display = 'none';
+        document.getElementById('project-edit-fields').style.display = 'block';
+        openModal('admin-modal');
+    }
+
+    // **[5] 프로젝트 상세 모달 열기**
+    function openProjectModal(projectId) {
+        // **TODO: Supabase/Firebase에서 projectId로 프로젝트 상세 정보 조회 및 표시**
+        // 현재는 더미 데이터
+        const projects = {
+            1: {
+                title: '이커머스 솔루션',
+                summary: 'Next.js와 Firebase를 사용한 고성능 쇼핑몰 구축 프로젝트.',
+                detail: '이커머스 솔루션은 React/Next.js 기반으로 구축되었으며, 결제 시스템 연동과 SEO 최적화에 중점을 두었습니다. Firebase Auth 및 Firestore를 사용하여 사용자 관리와 상품 데이터를 처리했습니다. 반응형 디자인을 통해 모든 기기에서 최적의 쇼핑 경험을 제공합니다.',
+                thumbnail: 'https://images.unsplash.com/photo-1542831371-29b0f74f9d13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80'
+            },
+            2: {
+                title: 'SaaS 관리 대시보드',
+                summary: '사용자 친화적인 디자인이 적용된 React 기반 관리자 시스템 개발.',
+                detail: 'SaaS 대시보드는 사용자 데이터 시각화 및 실시간 업데이트를 위해 Vue.js와 WebSockets (또는 Supabase Realtime)을 사용했습니다. 모바일 반응형 디자인을 최우선으로 했으며, 데이터 보안과 효율적인 관리를 위한 다양한 기능을 포함합니다. 차트 라이브러리를 활용하여 데이터를 직관적으로 표시합니다.',
+                thumbnail: 'https://images.unsplash.com/photo-1555949963-aa79dcefdc87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80'
+            }
+        };
+        
+        const project = projects[projectId];
+        if (project) {
+            document.getElementById('modal-project-details').innerHTML = `
+                <img src="${project.thumbnail}" alt="${project.title}" style="width:100%; height: auto; border-radius: 8px; margin-bottom: 20px;">
+                <h4>${project.title}</h4>
+                <p><strong>요약:</strong> ${project.summary}</p>
+                <p><strong>상세:</strong> ${project.detail}</p>
+                <p>실제 구현 시, 여기에 기술 스택, 기여도, GitHub 링크 등이 추가될 수 있습니다.</p>
+            `;
+        } else {
+            document.getElementById('modal-project-details').innerHTML = `<p>프로젝트 상세 정보를 불러올 수 없습니다.</p>`;
+        }
+        openModal('project-modal');
+    }
+
+    // **[6] 관리자 로그인 처리 (Firebase/Supabase Auth)**
+    document.getElementById('admin-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // **TODO: Firebase/Supabase 인증 로직 구현**
+        try {
+            // const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            // 가짜 성공 로직 (실제 서비스에서는 보안상 매우 위험하므로 사용 금지!)
+            if (email === 'admin@admin.com' && password === 'password') {
+                alert('관리자 로그인 성공!');
+                isAdminLoggedIn = true;
+                closeModal('admin-modal');
+                document.getElementById('add-project-btn').style.display = 'block'; // 프로젝트 추가 버튼 보이기
+                document.getElementById('admin-auth-btn').textContent = 'Admin Logout'; // 버튼 텍스트 변경
+            } else {
+                alert('로그인 실패: 이메일 또는 비밀번호를 확인하세요.');
+            }
+        } catch (error) {
+            // console.error("로그인 오류:", error);
+            // alert('로그인 중 오류 발생.');
+        }
+    });
+
+    // **[7] 프로젝트 저장 (CRUD: Create/Update)**
+    async function saveProject() {
+        const projectId = document.getElementById('edit-project-id').value; // ID가 있으면 업데이트, 없으면 생성
+        const title = document.getElementById('edit-title').value;
+        const summary = document.getElementById('edit-summary').value;
+        const detail = document.getElementById('edit-detail').value;
+        const thumbnailFile = document.getElementById('edit-thumbnail').files[0];
+        
+        if (!title || !summary) {
+            alert('제목과 요약은 필수 입력 사항입니다.');
+            return;
+        }
+
+        let thumbnailUrl = 'https://via.placeholder.com/800x450?text=Default+Thumbnail'; // 기본 이미지
+
+        // **TODO: 썸네일 파일 업로드 로직 (Firebase Storage 또는 Supabase Storage)**
+        if (thumbnailFile) {
+             // 1. Storage에 파일 업로드 (예: Firebase Storage)
+             // const storageRef = ref(storage, `project-thumbnails/${thumbnailFile.name}`);
+             // const uploadResult = await uploadBytes(storageRef, thumbnailFile);
+             // 2. 업로드된 파일의 공개 URL 가져오기
+             // thumbnailUrl = await getDownloadURL(uploadResult.ref);
+             console.log('썸네일 업로드 예정:', thumbnailFile.name);
+             alert('썸네일 업로드 로직이 필요합니다.'); // 실제 구현 시 제거
+        }
+
+        // **TODO: 프로젝트 데이터베이스 저장 또는 업데이트 로직 (Firebase Firestore 또는 Supabase)**
+        const projectData = {
+            title: title,
+            summary: summary,
+            detail: detail,
+            thumbnailUrl: thumbnailUrl,
+            updatedAt: new Date().toISOString() // 업데이트 시점 기록
+        };
+
+        if (projectId) {
+            // await updateDoc(doc(db, "projects", projectId), projectData); // Firestore 예시
+            // const { data, error } = await supabase.from('projects').update(projectData).eq('id', projectId); // Supabase 예시
+            alert('프로젝트가 성공적으로 업데이트(시뮬레이션)되었습니다!');
+        } else {
+            // await addDoc(collection(db, "projects"), projectData); // Firestore 예시
+            // const { data, error } = await supabase.from('projects').insert([projectData]); // Supabase 예시
+            alert('새 프로젝트가 성공적으로 저장(시뮬레이션)되었습니다!');
+        }
+        
+        closeModal('admin-modal');
+        loadProjects(); // 목록 새로고침
+    }
+    
+    // **[8] 초기 프로젝트 목록 로드 (CRUD: Read)**
+    async function loadProjects() {
+        // **TODO: Firebase/Supabase에서 프로젝트 목록을 가져와 #project-list에 동적으로 삽입**
+        // 현재는 더미 데이터를 기반으로 HTML 요소를 생성합니다.
+        const projects = [
+            { id: 1, title: '이커머스 솔루션', summary: 'Next.js와 Firebase를 사용한 고성능 쇼핑몰 구축 프로젝트.', thumbnailUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9d13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80' },
+            { id: 2, title: 'SaaS 관리 대시보드', summary: '사용자 친화적인 디자인이 적용된 React 기반 관리자 시스템 개발.', thumbnailUrl: 'https://images.unsplash.com/photo-1555949963-aa79dcefdc87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80' }
+            // 추가적인 프로젝트는 여기에 배열 요소로 추가하거나, 백엔드에서 가져와야 합니다.
+        ];
+
+        const projectListElement = document.getElementById('project-list');
+        projectListElement.innerHTML = ''; // 기존 목록 초기화
+
+        projects.forEach(project => {
+            const projectCard = document.createElement('div');
+            projectCard.className = 'project-card';
+            projectCard.setAttribute('data-project-id', project.id);
+            projectCard.onclick = () => openProjectModal(project.id);
+            projectCard.innerHTML = `
+                <img src="${project.thumbnailUrl}" alt="${project.title} 썸네일" class="project-thumbnail">
+                <div class="project-info">
+                    <h3>${project.title}</h3>
+                    <p>${project.summary}</p>
+                </div>
+            `;
+            projectListElement.appendChild(projectCard);
+        });
+
+        console.log('프로젝트 목록 로직 실행됨.');
+    }
+
+    // 페이지 로드 시 프로젝트 로드
+    window.onload = loadProjects;
+
+    // 모달 외부 클릭 시 닫기
+    window.addEventListener('click', (event) => {
+        const projectModal = document.getElementById('project-modal');
+        const adminModal = document.getElementById('admin-modal');
+
+        if (event.target === projectModal) {
+            closeModal('project-modal');
+        }
+        if (event.target === adminModal) {
+            closeModal('admin-modal');
+        }
+    });
+  </script>
+</body>
+</html>
+
